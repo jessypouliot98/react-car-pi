@@ -1,0 +1,19 @@
+*{
+   box-sizing: border-box;
+   user-select: none;
+}
+html{
+   background: #000;
+   font-family: Helvetica;
+}
+body{
+   margin: 0;
+}
+.App{
+   position: relative;
+   width: 800px;
+   height: 480px;
+   background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNdPcksgYaqz-ZB0JqSeQXurIrWR5x8xSaiEOT7b2gQnYtFaSC');
+   background-position: center;
+   background-size: cover;
+}

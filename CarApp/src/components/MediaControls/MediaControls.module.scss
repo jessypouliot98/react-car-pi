@@ -1,0 +1,52 @@
+.AutoHide{
+   transition-delay: 3s;
+   transition-duration: 1s;
+   opacity: 0;
+
+   &:hover{
+      transition-delay: 0s;
+      transition-duration: 0.3s;
+      opacity: 1;
+   }
+}
+.Center{
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+}
+.Middle{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-around;
+}
+
+.MediaControlsContainer{
+   background: rgba(0, 0, 0, 0.7);
+   height: 70px;
+   display: flex;
+   width: 800px;
+   flex-direction: row;
+   justify-content: space-between;
+}
+.MediaButtonContainer{
+   @extend .Middle;
+   color: #fff;
+   margin: 0 5px;
+}
+.MediaButton{
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+}
+.MediaTimelineContainer{
+   @extend .Middle;
+}
+.MediaTimeline{
+   @extend .Center;
+   margin: 0 10px;
+}
+.MediaTimestamp{
+   @extend .Center;
+   margin: 0 10px;
+   color: #fff;
+}

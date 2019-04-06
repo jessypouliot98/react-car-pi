@@ -1,0 +1,24 @@
+.ResetButton{
+   background: none;
+   border: none;
+   outline: none;
+   padding: 0;
+   margin: 0;
+   border-radius: 0;
+}
+
+.MediaButton{
+   @extend .ResetButton;
+   color: inherit;
+   border: 2px solid #fff;
+   width: 50px;
+   height: 50px;
+   margin: 0 5px;
+   transition-duration: 0.3s;
+
+   &:hover{
+      background: #fff;
+      color: #000;
+      cursor: pointer;
+   }
+}

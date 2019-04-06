@@ -1,0 +1,7 @@
+.AudioVisualizer{
+   $containerWidth: 800px;
+   $width: 750px;
+   padding: 0px calc((#{$containerWidth} - #{$width}) / 2);
+   width: $containerWidth;
+   height: 100px;
+}

@@ -1,0 +1,32 @@
+.Reset{
+   -webkit-appearance: none;
+   background: none;
+   &:focus{
+      outline: none;
+   }
+   &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+   }
+}
+.Timeline{
+   @extend .Reset;
+   height: 5px;
+   width: 400px;
+   background: rgba(255, 255, 255, 0.3);
+   &::-webkit-slider-thumb {
+      $common-size: 15px;
+      height: $common-size;
+      width: $common-size;
+      border: 1px solid #aaa;
+      border-radius: 50%;
+      background: #ccc;
+      transition-duration: 0.3s;
+      &:hover{
+         transition-duration: 0.1s;
+         background: #eee;
+      }
+      &:active{
+         background: #ccc;
+      }
+   }
+}
