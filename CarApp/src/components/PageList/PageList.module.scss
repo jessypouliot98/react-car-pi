@@ -32,8 +32,13 @@ $buttonSectionHeight: 80px;
    margin: 0;
    padding: 0;
 }
-.NavLink{
-   text-decoration: none;
+.NavBtn{
+   border: none;
+   outline: none;
+   background: none;
+   &:hover{
+      background: rgba(255, 255, 255, 0.3);
+   }
 }
 .NavItem{
    color: #fff;

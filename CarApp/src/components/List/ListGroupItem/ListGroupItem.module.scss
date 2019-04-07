@@ -1,0 +1,56 @@
+.ListGroupItem{
+   border-bottom: 1px solid #fff;
+}
+.ListGroupItemTitle{
+   @extend .ListGroupItem;
+   transition-duration: 0.3s;
+   &:hover{
+      transition-duration: 0.1s;
+      background: rgba(255, 255, 255, 0.3);
+   }
+   &:active{
+      transition-duration: 0.1s;
+      background: rgba(255, 255, 255, 0.6);
+   }
+}
+.ListGroup{
+   list-style-type: none;
+   padding: 0;
+   margin: 0;
+   background: rgba(255, 255, 255, 0.2);
+   .ListGroupItem{
+      transition-duration: 0.3s;
+      &:hover{
+         transition-duration: 0.1s;
+         background: rgba(255, 255, 255, 0.3);
+      }
+      &:active{
+         transition-duration: 0.1s;
+         background: rgba(255, 255, 255, 0.6);
+      }
+      &:last-child{
+         border-bottom: none;
+      }
+   }
+}
+.ListGroupItemBtn{
+   color: inherit;
+   background: none;
+   border: none;
+   outline: none;
+   text-align: left;
+   padding: 20px 40px;
+   width: 100%;
+}
+
+.CurrentActive{
+   .ListGroupItemBtn{
+      border-left: 1em solid rgba(255, 255, 255, 0.9);
+   }
+}
+.PrimaryName{
+   font-size: 1.4em;
+}
+.SecondaryName{
+   font-size: 1em;
+}

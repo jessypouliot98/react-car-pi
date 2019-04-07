@@ -71,12 +71,10 @@ class AudioProvider extends React.Component{
       this.setAudio(newID);
    }
 
-   selectAudio = (songID) => {
-      const playlistSongID = this.state.playlist.findIndex( song => {
-         const lSong = this.state.songList[songID];
-         return (
-            song.title === lSong.title
-         );
+   selectAudio = (song) => {
+      console.log(song);
+      const playlistSongID = this.state.playlist.findIndex( item => {
+         return (item === song);
       });
 
       if(playlistSongID >= 0){
@@ -186,7 +184,7 @@ class AudioProvider extends React.Component{
    render(){
       return(
          <Provider value={{
-            songList: this.state.songList,
+            mediaList: this.state.songList,
             playlist: this.state.playlist,
             currentAudioID: this.state.currentAudioID,
             audioDataFn: this.audioData,

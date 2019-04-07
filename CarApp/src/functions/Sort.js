@@ -51,7 +51,7 @@ class Sort{
    static randomSort = (array) => {
       const tempArray = array.slice(0);
       const arrayLength = tempArray.length;
-      
+
       const sortedArray = [];
       for(let i = 0; i < arrayLength; i++){
          const rand = Math.floor(Math.random() * tempArray.length);
@@ -61,6 +61,32 @@ class Sort{
       }
 
       return sortedArray;
+   }
+
+   /**
+   * Must pre-sort in alphabetical order before using
+   */
+   static groupSortObject = (array, property, presort = false) => {
+      const list = (presort ? this.quickSortObject(array, property, 'ASC') : array);
+
+      const groupedArray = [];
+
+      let ref = '';
+      for(let item of list){
+         const target = item[property];
+
+         if(ref !== target){
+            ref = target;
+            groupedArray.push({
+               [property]: target,
+               content: [],
+            });
+         }
+
+         groupedArray[groupedArray.length - 1].content.push(item);
+      }
+      
+      return groupedArray;
    }
 }
 

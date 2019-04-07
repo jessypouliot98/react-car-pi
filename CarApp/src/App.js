@@ -6,6 +6,67 @@ import classes from './App.module.scss';
 
 class App extends Component {
 
+   MUSIC_BUTTONS = [
+      {
+         text: 'Title',
+         page: {
+            list: 'mediaList',
+            firstTitle: {
+               property: 'title',
+               default: 'Unknown Title',
+            },
+            secondTitle: {
+               property: 'artist',
+               default: 'Unknown Artist',
+            },
+            sortBy: 'title',
+         },
+      },
+      {
+         text: 'Artist',
+         page: {
+            list: 'mediaList',
+            firstTitle: {
+               property: 'artist',
+               default: 'Unknown Artist',
+            },
+            secondTitle: null,
+            sortBy: 'artist',
+            group: true,
+         },
+      },
+      {
+         text: 'Album',
+         page: {
+            list: 'mediaList',
+            firstTitle: {
+               property: 'album',
+               default: 'Unknown Album',
+            },
+            secondTitle: {
+               property: 'artist',
+               default: 'Unknown Artist',
+            },
+            sortBy: 'album',
+            group: true,
+         },
+      },
+      {
+         text: 'Playlist',
+         page: {
+            list: 'playlist',
+            firstTitle: {
+               property: 'title',
+               default: 'Unknown Title',
+            },
+            secondTitle: {
+               property: 'artist',
+               default: 'Unknown Artist',
+            },
+         },
+      },
+   ];
+
    state = {
       windowBtn: 'Menu',
       windowPage: (<React.Fragment></React.Fragment>),
@@ -19,9 +80,7 @@ class App extends Component {
             case 'music-list':
                return {
                   page: (
-                     <PageList page="Music">
-                        <List/>
-                     </PageList>
+                     <PageList page="Music" buttons={this.MUSIC_BUTTONS}/>
                   ),
                   btn: 'close',
                   btnParam: null,
@@ -49,7 +108,7 @@ class App extends Component {
    }
 
    componentDidMount(){
-      // this.openWindow('list');
+      this.openWindow('music-list');
    }
 
    render() {
@@ -71,7 +130,7 @@ class App extends Component {
                   {this.state.windowPage}
                </Window>
                <WindowButton clickFn={() => this.openWindow(this.state.windowFnParam)}>
-               {this.state.windowBtn}
+                  {this.state.windowBtn}
                </WindowButton>
             </VideoProvider>
          </AudioProvider>
