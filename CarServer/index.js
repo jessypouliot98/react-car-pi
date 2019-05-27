@@ -1,11 +1,5 @@
 /*
-   GLOBALS
-*/
-const AUDIO_LIBRARY = './audio-library.json';
-const VIDEOCLIP_LIBRARY = './audio-library.json';
-
-/*
-  REQUIRES
+Dependencies
 */
 const http = require('http').createServer(handler);
 const url = require('url');
@@ -16,6 +10,18 @@ const io = require('socket.io');
 const ss = require('socket.io-stream');
 const audioData = require('music-metadata');
 const slugify = require('slugify');
+const GPIORotaryEncoder = require('./vendors/gpio_rotary/rotary.js').GPIORotaryEncoder;
+
+/*
+   GLOBALS
+*/
+const AUDIO_LIBRARY = './audio-library.json';
+const VIDEOCLIP_LIBRARY = './audio-library.json';
+
+const RE = new GPIORotaryEncoder().EE;
+
+RE.on('Press', (bool) => console.log('Pressed: ' + bool));
+RE.on('Rotate', (side) => console.log( 'Rotated: ' + (side ? 'Right' : 'Left') ));
 
 /*
   HTTP SERVER
