@@ -1,0 +1,11 @@
+{
+  "name": "nodeapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "rotary.js",
+  "author": "Jessy Pouliot",
+  "license": "ISC",
+  "dependencies": {
+    "onoff": "^4.1.1"
+  }
+}

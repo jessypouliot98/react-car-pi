@@ -1,8 +1,17 @@
 class Sort{
+
+   /**
+   * @param array - array to sort
+   * @param string - name of object property to sort by
+   * @param string - 'ASC' / 'DESC'\
+   *
+   * @return array - new sorted array
+   */
    static quickSortObject = (array, property, order = 'ASC') => {
 
       let sortedArray = array.slice(0);//clone array
 
+      //sort array
       function quickSort(arr, start, end){
          if(start >= end) return;
 
@@ -10,6 +19,8 @@ class Sort{
          quickSort(arr, start, index - 1);
          quickSort(arr, index + 1, end);
       }
+
+      //Reorder values from an array from a to b
       function partition(arr, start, end){
          let pIndex = start;
          let pValue = arr[end][property];
@@ -37,6 +48,8 @@ class Sort{
 
          return pIndex;
       }
+
+      //Swap two adjacent values inside an array
       function swap(arr, a, b){
          const temp = arr[a];
          arr[a] = arr[b];
@@ -48,6 +61,11 @@ class Sort{
       return sortedArray;
    }
 
+   /**
+   *  @param array - array to sort
+   *
+   *  @return array - new sorted array
+   */
    static randomSort = (array) => {
       const tempArray = array.slice(0);
       const arrayLength = tempArray.length;
@@ -64,7 +82,13 @@ class Sort{
    }
 
    /**
-   * Must pre-sort in alphabetical order before using
+   * Must have a sorted array before using, set presort to true if it isn't already sorted
+   *
+   * @param array - array to sort
+   * @param string - name of object property to sort by
+   * @param boolean - pre-sort the array before grouping items
+   *
+   * @param array - new sorted array
    */
    static groupSortObject = (array, property, presort = false) => {
       const list = (presort ? this.quickSortObject(array, property, 'ASC') : array);
@@ -85,7 +109,7 @@ class Sort{
 
          groupedArray[groupedArray.length - 1].content.push(item);
       }
-      
+
       return groupedArray;
    }
 }
