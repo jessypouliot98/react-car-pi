@@ -11,7 +11,7 @@ class AudioProvider extends React.Component{
    ANALYSER = null;
    PLAYER = null;
    SOCKET = null;
-   HOST = 'http://localhost:3001';
+   HOST = 'http://localhost:3001/';
 
    state = {
       songList: [],
@@ -116,7 +116,7 @@ class AudioProvider extends React.Component{
       const audioObj = this.state.playlist[id];
       if(this.state.playlist.length > 0){
          this.PLAYER = new Howl({
-            src: audioObj.path + audioObj.file,
+            src: audioObj.path + '/' + audioObj.file,
             autoplay: true,
             onload: (e) => {
                this.ANALYSER = Howler.ctx.createAnalyser();
@@ -177,8 +177,23 @@ class AudioProvider extends React.Component{
       this.CONTEXT = new AudioContext();
       this.SOCKET = new Socket();
       this.SOCKET.connect(this.HOST)
-      .then(status => this.loadSongsFromSource('./sound'))
-      .then(status => this.fetchSongList());
+      .then(status => this.loadSongsFromSource(['/media/jessy/MyPassport/Music/Queen/Greatest Hits (Icon)', '/media/jessy/MyPassport/Music']))
+      .then(status => this.fetchSongList())
+      .then(status => this.SOCKET.inputListener({
+        onRotate: (side) => {
+          const time = this.scrubAudio();
+          const percent = time.current / time.total;
+          if(side){
+            this.scrubAudio(Math.min(percent + 0.01, 1));
+          }
+          else {
+            this.scrubAudio(Math.max(0, percent - 0.01));
+          }
+        },
+        onPress: (bool) => {
+          if(!bool) this.togglePlay();
+        },
+      }));
    }
 
    render(){

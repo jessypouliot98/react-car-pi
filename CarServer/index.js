@@ -1,3 +1,5 @@
+const DEV = true;
+
 /*
 Dependencies
 */
@@ -10,18 +12,26 @@ const io = require('socket.io');
 const ss = require('socket.io-stream');
 const audioData = require('music-metadata');
 const slugify = require('slugify');
-const GPIORotaryEncoder = require('./vendors/gpio_rotary/rotary.js').GPIORotaryEncoder;
+
+if(!DEV){
+  const GPIORotaryEncoder = require('./vendors/gpio_rotary/rotary.js').GPIORotaryEncoder;
+}
 
 /*
    GLOBALS
 */
-const AUDIO_LIBRARY = './audio-library.json';
-const VIDEOCLIP_LIBRARY = './audio-library.json';
 
-const RE = new GPIORotaryEncoder().EE;
+const FILE_AUDIO_LIBRARY = './audio-library.json';
+const AUDIO_LIBRARY = {};
 
-RE.on('Press', (bool) => console.log('Pressed: ' + bool));
-RE.on('Rotate', (side) => console.log( 'Rotated: ' + (side ? 'Right' : 'Left') ));
+const FILE_VIDEOCLIP_LIBRARY = './audio-library.json';
+const VIDEOCLIP_LIBRARY = {};
+
+const PUBLIC_APP_DIR = '../CarApp/public';
+
+if(!DEV){
+  const RE = new GPIORotaryEncoder().EE;
+}
 
 /*
   HTTP SERVER
@@ -31,9 +41,9 @@ const port = process.argv[2] || 80;
 // maps file extention to MIME types
 const mimeType = {
   '.ico': 'image/x-icon',
-  '.html': 'text/html',
-  '.js': 'text/javascript',
-  '.json': 'application/json',
+  '.html':'text/html',
+  '.js':  'text/javascript',
+  '.json':'application/json',
   '.css': 'text/css',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
@@ -103,6 +113,11 @@ io.listen(http).on('connection', function (socket) {
   socket.on('addSources', (array) => addSources(socket, array));
   socket.on('removeSources', (array) => removeSources(socket, array));
   socket.on('getSources', (type) => getSources(socket, type));
+
+  if(!DEV){
+    RE.on('Press', (bool) => socket.emit('press', bool));
+    RE.on('Rotate', (side) => socket.emit('rotate', side));
+  }
 });
 
 //Socket event - load all files found in sources parameter and write a library of file information
@@ -112,12 +127,15 @@ function addSources(socket, aSrc){
    const songList = [];
    const folderItems = getItemsFromDirs(aSrc);
    const fileQuery = getSongsFromItems(folderItems);
+   linkFoldersToApp(aSrc);
 
    fileQuery.then(songs => {
       for(let song of songs){
          songList.push(song);
       }
-      writeFile(AUDIO_LIBRARY, JSON.stringify(songList));
+
+      AUDIO_LIBRARY.files = songList;
+      writeFile(FILE_AUDIO_LIBRARY, JSON.stringify(AUDIO_LIBRARY));
       socket.emit('addedSources', true);
    });
 }
@@ -132,10 +150,10 @@ function getSources(socket, type){
    let file;
    switch(type){
       case 'music':
-         file = AUDIO_LIBRARY;
+         file = FILE_AUDIO_LIBRARY;
          break;
       case 'video_clip':
-         file = VIDEOCLIP_LIBRARY;
+         file = FILE_VIDEOCLIP_LIBRARY;
          break;
       default:
          console.log('Unregistered Source Type');
@@ -144,7 +162,7 @@ function getSources(socket, type){
    }
 
    const libraryRaw = fs.readFileSync(file);
-   const aSrc = JSON.parse(libraryRaw);
+   const aSrc = JSON.parse(libraryRaw).files;
 
    socket.emit('emitSources', aSrc);
 }
@@ -153,13 +171,26 @@ function getSources(socket, type){
    Files
 */
 
+//create symlink from file folder to public app dir
+function linkFoldersToApp(aSrc){
+  for(const src of aSrc){
+    const path = src.split('/');
+    const folder = path[path.length - 1];
+    const publicDir = PUBLIC_APP_DIR + '/' + folder;
+
+    if(!fs.existsSync(publicDir)){
+      fs.symlinkSync(src, publicDir);
+    }
+  }
+  AUDIO_LIBRARY.paths = aSrc;
+  writeFile(FILE_AUDIO_LIBRARY, JSON.stringify(AUDIO_LIBRARY));
+}
+
 //get list of files from source directories
 function getItemsFromDirs(aSrc){
    const folderItems = [];
-
    for(let dir of aSrc){
       if(dir[dir.length-1] !== '/') dir += '/';
-
       const files = fs.readdirSync(dir);
       for(let file of files){
          folderItems.push({
@@ -229,11 +260,13 @@ function getSongMeta(file){
 
 //returns a formated audio object for audioLibrary
 function getSongObject(file, meta){
+   const folder = file.path.split('/');
+   const clientPath = '/' + folder[folder.length - 2];
    return {
       title: (meta.common.title ? meta.common.title : file.file),
       artist: (meta.common.artist ? meta.common.artist : undefined),
       album: (meta.common.album ? meta.common.album : undefined),
-      path: file.path,
+      path: clientPath,
       file: file.file,
    }
 }

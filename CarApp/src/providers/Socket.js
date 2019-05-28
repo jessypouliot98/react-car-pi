@@ -29,6 +29,15 @@ class Socket {
 
       return promise;
    }
+
+   inputListener = (fn) => {
+     const promise = new Promise((resolve, reject) => {
+       this.SOCKET.on('rotate', (side) => fn.onRotate(side));
+       this.SOCKET.on('press', (bool) => fn.onPress(bool));
+     });
+
+     return promise;
+   }
 }
 
 export default Socket
