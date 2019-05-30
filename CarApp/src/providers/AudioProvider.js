@@ -152,7 +152,7 @@ class AudioProvider extends React.Component{
    fetchSongList = () => {
       console.log('Fetching audio library from server');
       this.SOCKET.getSongs().then(data => {
-
+         if(data === null) data = [];
          const songList = Sort.quickSortObject(data, 'title', 'ASC');
          this.setState({
             songList: songList,
@@ -177,7 +177,9 @@ class AudioProvider extends React.Component{
       this.CONTEXT = new AudioContext();
       this.SOCKET = new Socket();
       this.SOCKET.connect(this.HOST)
-      .then(status => this.loadSongsFromSource(['/media/jessy/MyPassport/Music/Queen/Greatest Hits (Icon)', '/media/jessy/MyPassport/Music']))
+      .then(status => this.loadSongsFromSource([
+        '/media/jessy/MyPassport/Music',
+      ]))
       .then(status => this.fetchSongList())
       .then(status => this.SOCKET.inputListener({
         onRotate: (side) => {
