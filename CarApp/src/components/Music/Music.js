@@ -22,7 +22,7 @@ class Music extends React.Component{
                         }} audioDataFn={audioProps.audioDataFn}/>
                      </div>
                      <div className={classes.ArtWorkContainer}>
-                        <ArtWork file={audioProps.getAlbumArtFn()}/>
+                        <ArtWork file={audioProps.albumArt}/>
                      </div>
                      <div className={classes.MusicInfoContainer}>
                         <MusicInfo song={audioProps.playlist[audioProps.currentAudioID]}/>
