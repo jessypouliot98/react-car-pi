@@ -3,12 +3,14 @@ Dependencies
 */
 const Metadata = require('music-metadata');
 const FileSystem = require('../file_system/filesystem.js').FileSystem;
+const jsmediatags = require("jsmediatags");
 
 //Vars
 const SUPPORTED_FILE_TYPES = ['mp3', 'flac', 'm4a'];
 
 const FILE_AUDIO_LIBRARY = './audio-library.json';
 const AUDIO_LIBRARY = {};
+const PUBLIC_APP_DIR = '../CarApp/public/';
 
 class Audio {
 
@@ -21,14 +23,41 @@ class Audio {
     return AUDIO_LIBRARY.files;
   }
 
-  static addSources = async(aSrc) => {
-    if(typeof aSrc === 'string') aSrc = [aSrc];
+  static getAlbumArt = (file) => {
+    const promise = new Promise((resolve, reject) => {
+      jsmediatags.read(PUBLIC_APP_DIR + file, {
+        onSuccess: resp => {
+          if(resp.tags.picture) resolve({
+            format: resp.tags.picture.format,
+            data: resp.tags.picture.data
+          });
+          resolve(undefined);
+        },
+        onError: err => {
+          console.log(':(', err.type, err.info);
+          resolve(undefined);
+        }
+      });
+    });
 
-    const folder = FileSystem.linkPathsToApp(aSrc);
-    FileSystem.getItemsFromDirs(aSrc, SUPPORTED_FILE_TYPES, folder)
-    .then(files => this.getSongDataList(files))
-    .then(songs => this.updateLibrary(aSrc, songs))
-    .then(status => status);
+    return promise;
+  }
+
+  static addSources = (aSrc) => {
+    const promise = new Promise((resolve, reject) => {
+
+      if(typeof aSrc === 'string') aSrc = [aSrc];
+
+      const folder = FileSystem.linkPathsToApp(aSrc);
+
+      FileSystem.getItemsFromDirs(aSrc, SUPPORTED_FILE_TYPES, folder)
+      .then(files => this.getSongDataList(files))
+      .then(songs => this.updateLibrary(aSrc, songs))
+      .then(status => resolve(AUDIO_LIBRARY.files));
+
+    });
+
+    return promise;
   }
 
   static updateLibrary = async(paths, files) => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Howl, Howler} from 'howler';
-import Sort from '../functions/Sort'
+import Sort from '../functions/Sort';
+import Converter from '../functions/Converter';
 import { Socket } from './';
 
 const { Provider, Consumer } = React.createContext();
@@ -12,12 +13,14 @@ class AudioProvider extends React.Component{
    PLAYER = null;
    SOCKET = null;
    HOST = 'http://localhost:3001/';
+   DEFAULT_ALBUM_ART = '/wallpaper/album_art.png';
 
    state = {
       songList: [],
       playlist: [],
       currentAudioID: 0,
       playState: false,
+      albumArt: '',
    }
 
    togglePlay = (play = null) => {
@@ -104,8 +107,23 @@ class AudioProvider extends React.Component{
       }
    }
 
-   getAlbumArt = () => {
-      return '/sound/Folder.jpg';
+   getAlbumArt = (audioObj) => {
+     let albumArt = this.DEFAULT_ALBUM_ART;
+     this.setState({ albumArt: albumArt });
+
+     const song = audioObj ? audioObj : this.state.playlist[this.state.currentAudioID];
+
+     if(song){
+       const file = song.path + '/' + song.file;
+       this.SOCKET.getAlbumArt(file).then(img => {
+         if(img){
+           const img64 = Converter.arrayBufferToBase64(img.data, 'data:' + img.format + ';base64,');
+           albumArt = img64;
+         }
+         this.setState({ albumArt: albumArt });
+       });
+     }
+
    }
 
    setAudio = (id) => {
@@ -115,8 +133,10 @@ class AudioProvider extends React.Component{
 
       const audioObj = this.state.playlist[id];
       if(this.state.playlist.length > 0){
+         this.getAlbumArt(audioObj);
+         const file = audioObj.path + '/' + audioObj.file;
          this.PLAYER = new Howl({
-            src: audioObj.path + '/' + audioObj.file,
+            src: file,
             autoplay: true,
             onload: (e) => {
                this.ANALYSER = Howler.ctx.createAnalyser();
@@ -145,21 +165,30 @@ class AudioProvider extends React.Component{
    }
 
    loadSongsFromSource = (aSrc) => {
-      console.log('Requesting Server to load songs');
-      return this.SOCKET.refreshSongLibrary(aSrc);
+     const promise = new Promise((resolve, reject) => {
+       console.log('Requesting Server to load songs');
+       this.SOCKET.refreshSongLibrary(aSrc).then(data => {
+         this.setLibrary(data);
+         resolve(true);
+       });
+     });
+
+     return promise;
    }
 
    fetchSongList = () => {
       console.log('Fetching audio library from server');
-      this.SOCKET.getSongs().then(data => {
-         if(data === null) data = [];
-         const songList = Sort.quickSortObject(data, 'title', 'ASC');
-         this.setState({
-            songList: songList,
-         });
+      this.SOCKET.getSongs().then(data => this.setLibrary(data));
+   }
 
-         this.setPlaylist();
-      });
+   setLibrary = (data) => {
+     if(data === null) data = [];
+     const songList = Sort.quickSortObject(data, 'title', 'ASC');
+     this.setState({
+        songList: songList,
+     });
+
+     this.setPlaylist();
    }
 
    setPlaylist = () => {
@@ -180,7 +209,6 @@ class AudioProvider extends React.Component{
       .then(status => this.loadSongsFromSource([
         '/media/jessy/MyPassport/Music',
       ]))
-      .then(status => this.fetchSongList())
       .then(status => this.SOCKET.inputListener({
         onRotate: (side) => {
           const time = this.scrubAudio();
@@ -196,6 +224,7 @@ class AudioProvider extends React.Component{
           if(!bool) this.togglePlay();
         },
       }));
+      this.getAlbumArt();
    }
 
    render(){
@@ -205,7 +234,7 @@ class AudioProvider extends React.Component{
             playlist: this.state.playlist,
             currentAudioID: this.state.currentAudioID,
             audioDataFn: this.audioData,
-            getAlbumArtFn: this.getAlbumArt,
+            albumArt: this.state.albumArt,
             scrubMediaFn: this.scrubAudio,
             togglePlayFn: this.togglePlay,
             switchMediaFn: this.switchAudio,
