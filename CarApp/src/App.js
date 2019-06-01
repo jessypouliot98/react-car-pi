@@ -108,7 +108,7 @@ class App extends Component {
    }
 
    componentDidMount(){
-      this.openWindow('music-list');
+      // this.openWindow('music-list');
    }
 
    render() {
