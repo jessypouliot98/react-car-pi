@@ -7,11 +7,11 @@ class MusicInfo extends React.Component{
    }
 
    getArtist = () => {
-      return (this.props.song ? this.props.song.artist : '');
+      return (this.props.song ? this.props.song.artist : ' ');
    }
 
    getAlbum = () => {
-      return (this.props.song ? this.props.song.album : '');
+      return (this.props.song ? this.props.song.album : ' ');
    }
 
    render(){

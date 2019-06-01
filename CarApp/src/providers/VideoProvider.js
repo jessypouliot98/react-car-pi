@@ -9,21 +9,7 @@ class VideoProvider extends React.Component{
    PLAYER = null;
 
    state = {
-      videoList: [
-         {
-            path: '/video/',
-            file: '107',
-         },{
-            path: '/video/',
-            file: '108',
-         },{
-            path: '/video/',
-            file: '112',
-         },{
-            path: '/video/',
-            file: '138',
-         }
-      ],
+      videoList: [],
       playlist: [],
       currentVideoID: 0,
       playState: false,
