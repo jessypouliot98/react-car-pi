@@ -117,6 +117,7 @@ class AudioProvider extends React.Component{
        const file = song.path + '/' + song.file;
        this.SOCKET.getAlbumArt(file).then(img => {
          if(img){
+           if(img.data.length === 0) return;//prevent empty img bug
            const img64 = Converter.arrayBufferToBase64(img.data, 'data:' + img.format + ';base64,');
            albumArt = img64;
          }
@@ -207,7 +208,7 @@ class AudioProvider extends React.Component{
       this.SOCKET = new Socket();
       this.SOCKET.connect(this.HOST)
       .then(status => this.loadSongsFromSource([
-        '/media/jessy/MyPassport/Music',
+        '/home/jessy/Music',
       ]))
       .then(status => this.SOCKET.inputListener({
         onRotate: (side) => {

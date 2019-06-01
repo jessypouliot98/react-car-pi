@@ -5,3 +5,5 @@ export { default as Window } from './Window/Window';
 export { default as WindowButton } from './WindowButton/WindowButton';
 export { default as PageList } from './PageList/PageList';
 export { default as List } from './List/List';
+export { default as Menu } from './Menu/Menu';
+export { default as Clock } from './Clock/Clock';
