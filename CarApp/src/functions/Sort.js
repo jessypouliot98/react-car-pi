@@ -97,9 +97,9 @@ class Sort{
 
       let ref = '';
       for(let item of list){
-         const target = item[property];
+         const target = item[property] || '';
 
-         if(ref !== target){
+         if(ref.toUpperCase() !== target.toUpperCase()){
             ref = target;
             groupedArray.push({
                [property]: target,

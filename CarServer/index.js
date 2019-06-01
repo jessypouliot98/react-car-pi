@@ -34,13 +34,17 @@ class CarServer {
 
     socket.on('addSources', (paths) => {
       Audio.addSources(paths)
-      .then(status => {
-        socket.emit('addedSources', status);
-      })
+      .then(aSrc => socket.emit('addedSources', aSrc))
       .catch(err => console.log(err));
     });
 
     socket.on('removeSources', (array) => Audio.removeSources(socket, array));
+
+    socket.on('getAlbumArt', (file) => {
+      Audio.getAlbumArt(file)
+      .then(img64 => socket.emit('emitAlbumArt', img64))
+      .catch(err => console.log(err));
+    });
 
     if(!DEV){
       RE.on('Press', (bool) => socket.emit('press', bool));
