@@ -1,5 +1,5 @@
 import React from 'react';
-import { Video, Window, PageList, WindowButton } from '../../components/';
+import { Video, Window, WindowButton } from '../../components/';
 
 class ViewVideo extends React.Component {
 
@@ -42,7 +42,7 @@ class ViewVideo extends React.Component {
       <React.Fragment>
         <Video/>
         <Window hidden={!this.state.windowVisibility}>
-          <PageList page="Music" buttons={this.MUSIC_BUTTONS}/>
+        
         </Window>
         <WindowButton clickFn={() => this.toggleWindow()}>
           {this.state.windowBtn}

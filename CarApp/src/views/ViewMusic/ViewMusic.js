@@ -1,5 +1,5 @@
 import React from 'react';
-import { Music, Window, PageList, WindowButton } from '../../components/';
+import { Music, Window, WindowButton } from '../../components/';
 
 class ViewMusic extends React.Component {
 
@@ -85,7 +85,7 @@ class ViewMusic extends React.Component {
       <React.Fragment>
         <Music/>
         <Window hidden={!this.state.windowVisibility}>
-          <PageList page="Music" buttons={this.MUSIC_BUTTONS}/>
+        
         </Window>
         <WindowButton clickFn={() => this.toggleWindow()}>
           {this.state.windowBtn}

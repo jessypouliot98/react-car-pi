@@ -1,0 +1,24 @@
+.InputLabel{
+  padding: 0 1em;
+  display: block;
+  color: white;
+  font-weight: bold;
+}
+
+.InputString{
+  padding: 0 1em;
+  height: 100%;
+  width: 70%;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.5em;
+  color: white;
+  text-align: right;
+
+  &::placeholder{
+    font-weight: lighter;
+    font-style: italic;
+    color: lightgray;
+  }
+}

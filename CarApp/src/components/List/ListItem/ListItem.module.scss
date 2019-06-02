@@ -1,27 +1,10 @@
 .ListItem{
-   border-bottom: 1px solid #fff;
-   transition-duration: 0.3s;
-   &:hover{
-      transition-duration: 0.1s;
-      background: rgba(255, 255, 255, 0.3);
-   }
-   &:active{
-      transition-duration: 0.1s;
-      background: rgba(255, 255, 255, 0.6);
-   }
-}
-.ListItemBtn{
-   color: inherit;
-   background: none;
-   border: none;
-   outline: none;
-   text-align: left;
-   padding: 20px 40px;
-   width: 100%;
-}
+  &:first-child{
+    border-top: 1px solid white;
+  }
+  border-bottom: 1px solid white;
 
-.CurrentActive{
-   .ListItemBtn{
-      border-left: 1em solid rgba(255, 255, 255, 0.9);
-   }
+  &:hover{
+    background: rgba(#fff, 0.3);
+  }
 }

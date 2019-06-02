@@ -208,7 +208,8 @@ class AudioProvider extends React.Component{
       this.SOCKET = new Socket();
       this.SOCKET.connect(this.HOST)
       .then(status => this.loadSongsFromSource([
-        '/home/jessy/Music',
+        '/media/jessy/MyPassport/Music',
+        // '/home/jessy/Music',
       ]))
       .then(status => this.SOCKET.inputListener({
         onRotate: (side) => {

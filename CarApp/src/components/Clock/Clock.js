@@ -24,6 +24,7 @@ class Clock extends React.Component{
     const min = date.getMinutes();
 
     const time = { hour, min, morning };
+    
     this.setState({ time });
   }
 

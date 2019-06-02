@@ -1,11 +1,16 @@
 import React from 'react';
-import { Menu, Clock } from '../../components/';
+import { Menu, Clock, Row, Col } from '../../components/';
+// import classes from './ViewHome.module.scss';
 
 class ViewHome extends React.Component {
   render(){
     return(
       <React.Fragment>
-        <Clock format="12"/>
+        <Row>
+          <Col>
+            <Clock format="12"/>
+          </Col>
+        </Row>
         <Menu items={[
           {
             name: 'Music',
