@@ -1,0 +1,30 @@
+.Weather{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  height: 100%;
+  max-height: 120px;
+  // max-width: 286px;
+  padding: 1em;
+  color: white;
+  font-weight: bold;
+}
+
+.WeatherTemp{
+  font-size: 2.5em;
+}
+
+.WeatherIcon{
+  display: block;
+  height: 100%;
+  filter: invert(1);
+  margin: 0 1em;
+}
+
+.WeatherCity{
+
+}
+
+.WeatherWeather{
+
+}

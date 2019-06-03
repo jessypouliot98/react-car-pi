@@ -1,14 +1,19 @@
+@import './scss/app';
+
 *{
    box-sizing: border-box;
    user-select: none;
 }
+
 html{
    background: #000;
    font-family: Helvetica;
 }
+
 body{
    margin: 0;
 }
+
 .App{
    position: relative;
    width: 800px;

@@ -16,8 +16,11 @@
   text-align: center;
   color: inherit;
   font-weight: inherit;
-  background: black;
+  background: none;
+  border: 3px solid white;
+  transition: 0.3s ease;
   &:hover{
-    background: gray;
+    background: rgba(#fff, 0.3);
+    color: black;
   }
 }

@@ -8,17 +8,10 @@ class ViewSetting extends React.Component {
       section: 'Configs',
       inputs: [
         {
-          name: 'Music',
-          type: 'link',
-          href: '/music',
-        },{
-          name: 'Video',
-          type: 'link',
-          href: '/video',
-        },{
-          name: 'Turn on Bluetooth',
-          type: 'bool',
-          default: true,
+          name: 'Weather City ID',
+          type: 'string',
+          default: undefined,
+          placeholder: 'OpenWeatherMap city id',
           callback: (v) => console.log(v),
         },{
           name: 'Music Sources',

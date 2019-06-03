@@ -1,14 +1,17 @@
 import React from 'react';
-import { Menu, Clock, Row, Col } from '../../components/';
+import { Menu, Clock, Row, Col, Weather } from '../../components/';
 // import classes from './ViewHome.module.scss';
 
 class ViewHome extends React.Component {
   render(){
     return(
       <React.Fragment>
-        <Row>
+        <Row height={150}>
           <Col>
             <Clock format="12"/>
+          </Col>
+          <Col>
+            <Weather/>
           </Col>
         </Row>
         <Menu items={[

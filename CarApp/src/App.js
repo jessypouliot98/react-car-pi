@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { AudioProvider, VideoProvider } from './providers/';
 import { ViewHome, ViewMusic, ViewVideo, ViewSetting } from './views/';
-import classes from './App.module.scss';
+import './App.scss';
 
 class App extends Component {
 
    render() {
       return (
-         <div className={classes.App}>
+         <div className="App">
            <AudioProvider>
               <VideoProvider>
                  <Switch>
