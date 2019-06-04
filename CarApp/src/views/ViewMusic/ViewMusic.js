@@ -1,5 +1,5 @@
 import React from 'react';
-import { Music, Window, WindowButton } from '../../components/';
+import { Music, Back } from '../../components/';
 
 class ViewMusic extends React.Component {
 
@@ -83,13 +83,8 @@ class ViewMusic extends React.Component {
   render(){
     return(
       <React.Fragment>
+        <Back/>
         <Music/>
-        <Window hidden={!this.state.windowVisibility}>
-        
-        </Window>
-        <WindowButton clickFn={() => this.toggleWindow()}>
-          {this.state.windowBtn}
-        </WindowButton>
       </React.Fragment>
     );
   }

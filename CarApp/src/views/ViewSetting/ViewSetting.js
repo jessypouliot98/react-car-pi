@@ -1,32 +1,66 @@
 import React from 'react';
-import { List } from '../../components/';
+import { List, Back, Apply } from '../../components/';
+import { AppContext } from '../../providers/';
 
 class ViewSetting extends React.Component {
+
+  static contextType = AppContext;
 
   SETTINGS = [
     {
       section: 'Configs',
       inputs: [
         {
-          name: 'Weather City ID',
+          name: 'Weather Location ID',
           type: 'string',
-          default: undefined,
+          default: this.context.location.id,
           placeholder: 'OpenWeatherMap city id',
-          callback: (v) => console.log(v),
+          callback: (v) => this.setCityID(v),
         },{
           name: 'Music Sources',
           type: 'string',
-          default: undefined,
-          callback: (v) => console.log(v),
+          default: this.context.audioLibrary.paths ? this.context.audioLibrary.paths.join(';') : undefined,
+          callback: (v) => this.setAudioSources(v),
         },
       ],
     }
   ];
 
+  INPUTS = {
+    locationID: '',
+    audioSources: [],
+  };
+
+  state = {
+    applyReady: false,
+    openWeatherMap: {},
+    musicSources: [],
+  }
+
+  setCityID = (value) => {
+    this.INPUTS.locationID = value;
+
+    this.setState({ applyReady: true });
+  }
+
+  setAudioSources = (value) => {
+    const aSrc = value.split(';');
+    this.INPUTS.audioSources = aSrc;
+
+    this.setState({ applyReady: true });
+  }
+
+  applyChanges = () => {
+    if(this.INPUTS.audioSources.length > 0) this.context.updateAudioLibraryFn(this.INPUTS.audioSources);
+    if(this.INPUTS.locationID.length > 0) this.context.updateLocationFn({ id: this.INPUTS.locationID });
+  }
+
   render(){
     return(
       <React.Fragment>
+        <Back/>
         <List items={this.SETTINGS}/>
+        <Apply callback={this.applyChanges} enabled={this.state.applyReady}/>
       </React.Fragment>
     );
   }

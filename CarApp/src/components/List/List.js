@@ -8,7 +8,7 @@ class List extends React.Component{
       const aItems = this.props.items[0].inputs.map((item, i) => (
         <ListItem key={i} {...item}/>
       ));
-
+      
       return(
          <ul className={classes.ListContainer}>
             {aItems}

@@ -39,6 +39,41 @@ class Socket {
      return promise;
    }
 
+   getWeather = () => {
+     const promise = new Promise((resolve, reject) => {
+        this.SOCKET.emit('getWeather');
+        this.SOCKET.on('emitWeather', (data) => resolve(JSON.parse(data)));
+     });
+
+     return promise;
+   }
+
+   saveWeather = (data) => {
+     const promise = new Promise((resolve, reject) => {
+        this.SOCKET.emit('setWeather', JSON.stringify(data));
+     });
+
+     return promise;
+   }
+
+   getLocation = () => {
+     const promise = new Promise((resolve, reject) => {
+        this.SOCKET.emit('getLocation');
+        this.SOCKET.on('emitLocation', (id) => resolve(JSON.parse(id)));
+     });
+
+     return promise;
+   }
+
+   setLocation = (id) => {
+     const promise = new Promise((resolve, reject) => {
+        this.SOCKET.emit('setLocation', JSON.stringify(id));
+        this.SOCKET.on('emitLocation', (id) => resolve(JSON.parse(id)));
+     });
+
+     return promise;
+   }
+
    inputListener = (fn) => {
      const promise = new Promise((resolve, reject) => {
        this.SOCKET.on('rotate', (side) => fn.onRotate(side));

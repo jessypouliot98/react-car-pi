@@ -1,5 +1,5 @@
 import React from 'react';
-import { Video, Window, WindowButton } from '../../components/';
+import { Video, Back } from '../../components/';
 
 class ViewVideo extends React.Component {
 
@@ -40,13 +40,8 @@ class ViewVideo extends React.Component {
   render(){
     return(
       <React.Fragment>
+        <Back/>
         <Video/>
-        <Window hidden={!this.state.windowVisibility}>
-        
-        </Window>
-        <WindowButton clickFn={() => this.toggleWindow()}>
-          {this.state.windowBtn}
-        </WindowButton>
       </React.Fragment>
     );
   }

@@ -8,7 +8,7 @@ const jsmediatags = require("jsmediatags");
 //Vars
 const SUPPORTED_FILE_TYPES = ['mp3', 'flac', 'm4a'];
 
-const FILE_AUDIO_LIBRARY = './audio-library.json';
+const FILE_AUDIO_LIBRARY = './configs/audio-library.json';
 const AUDIO_LIBRARY = {};
 const PUBLIC_APP_DIR = '../CarApp/public/';
 
@@ -20,7 +20,7 @@ class Audio {
     AUDIO_LIBRARY.paths = library.paths;
     AUDIO_LIBRARY.files = library.files;
 
-    return AUDIO_LIBRARY.files;
+    return AUDIO_LIBRARY;
   }
 
   static getAlbumArt = (file) => {
@@ -43,21 +43,18 @@ class Audio {
     return promise;
   }
 
-  static addSources = (aSrc) => {
-    const promise = new Promise((resolve, reject) => {
+  static addSources = async(aSrc) => {
+    if(typeof aSrc === 'string') aSrc = [aSrc];
 
-      if(typeof aSrc === 'string') aSrc = [aSrc];
+    const folders = FileSystem.linkPathsToApp(aSrc);
 
-      const folder = FileSystem.linkPathsToApp(aSrc);
+    const files = await FileSystem.getItemsFromDirs(aSrc, SUPPORTED_FILE_TYPES, folders);
+    const songs = await this.getSongDataList(files);
+    // console.log(songs);
+    await this.updateLibrary(aSrc, songs);
 
-      FileSystem.getItemsFromDirs(aSrc, SUPPORTED_FILE_TYPES, folder)
-      .then(files => this.getSongDataList(files))
-      .then(songs => this.updateLibrary(aSrc, songs))
-      .then(status => resolve(AUDIO_LIBRARY.files));
 
-    });
-
-    return promise;
+    return AUDIO_LIBRARY;
   }
 
   static updateLibrary = async(paths, files) => {

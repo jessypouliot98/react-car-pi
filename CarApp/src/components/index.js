@@ -7,6 +7,8 @@ export { default as List } from './List/List';
 export { default as Menu } from './Menu/Menu';
 export { default as Clock } from './Clock/Clock';
 export { default as Weather } from './Weather/Weather';
+export { default as Back } from './Back/Back';
+export { default as Apply } from './Apply/Apply';
 
 export { default as Col } from './layout/Col/Col';
 export { default as Row } from './layout/Row/Row';
