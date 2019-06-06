@@ -9,11 +9,11 @@ class Timeline extends React.Component{
       const max = parseInt(e.target.getAttribute('max'));
       const value = e.target.value / max;
 
-      this.props.mediaCtx.scrubMediaFn(value);
+      this.props.mediaCtx.scrubMedia(value);
    }
 
    getMediaTime = () => {
-      const mediaTime = this.props.mediaCtx.scrubMediaFn();
+      const mediaTime = this.props.mediaCtx.scrubMedia();
       const max = parseInt(this.TIMELINE.getAttribute('max'));
 
       if(mediaTime !== false && mediaTime.current && mediaTime.total){

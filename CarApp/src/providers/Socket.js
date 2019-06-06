@@ -14,8 +14,8 @@ class Socket {
 
    refreshSongLibrary = (aSrc) => {
       const promise = new Promise((resolve, reject) => {
-         this.SOCKET.emit('addSources', aSrc);
-         this.SOCKET.on('addedSources', (aSrc) => resolve(aSrc));
+         this.SOCKET.emit('addAudioSources', aSrc);
+         this.SOCKET.on('addedAudioSources', (aSrc) => resolve(aSrc));
       });
 
       return promise;
@@ -23,8 +23,17 @@ class Socket {
 
    getSongs = () => {
       const promise = new Promise((resolve, reject) => {
-         this.SOCKET.emit('getSources');//BROKEN ??
-         this.SOCKET.on('emitSources', (aSrc) => resolve(aSrc));
+         this.SOCKET.emit('getAudioSources');//BROKEN ??
+         this.SOCKET.on('emitAudioSources', (aSrc) => resolve(aSrc));
+      });
+
+      return promise;
+   }
+
+   getVideos = () => {
+      const promise = new Promise((resolve, reject) => {
+         this.SOCKET.emit('getVideoSources');//BROKEN ??
+         this.SOCKET.on('emitVideoSources', (aSrc) => resolve(aSrc));
       });
 
       return promise;
@@ -34,6 +43,41 @@ class Socket {
      const promise = new Promise((resolve, reject) => {
         this.SOCKET.emit('getAlbumArt', file);
         this.SOCKET.on('emitAlbumArt', (img64) => resolve(img64));
+     });
+
+     return promise;
+   }
+
+   getWeather = () => {
+     const promise = new Promise((resolve, reject) => {
+        this.SOCKET.emit('getWeather');
+        this.SOCKET.on('emitWeather', (data) => resolve(JSON.parse(data)));
+     });
+
+     return promise;
+   }
+
+   saveWeather = (data) => {
+     const promise = new Promise((resolve, reject) => {
+        this.SOCKET.emit('setWeather', JSON.stringify(data));
+     });
+
+     return promise;
+   }
+
+   getLocation = () => {
+     const promise = new Promise((resolve, reject) => {
+        this.SOCKET.emit('getLocation');
+        this.SOCKET.on('emitLocation', (id) => resolve(JSON.parse(id)));
+     });
+
+     return promise;
+   }
+
+   setLocation = (id) => {
+     const promise = new Promise((resolve, reject) => {
+        this.SOCKET.emit('setLocation', JSON.stringify(id));
+        this.SOCKET.on('emitLocation', (id) => resolve(JSON.parse(id)));
      });
 
      return promise;

@@ -4,7 +4,7 @@ Dependencies
 const fs = require('fs');
 
 //vars
-const PUBLIC_APP_DIR = '../CarApp/public/';
+const PUBLIC_APP_DIR = '../CarApp/public';
 
 class FileSystem {
 
@@ -25,55 +25,33 @@ class FileSystem {
     return json;
   }
 
-  static getItemsFromDirs = (aSrc, types, folder) => {
-    const promise = new Promise((resolve, reject) => {
-      const files = [];
-      let folders = 0;
-      let resolvedFolders = 0;
+  static getItemsFromDirs = async(aSrc, types, paths) => {
+    const files = [];
 
-      for(let dir of aSrc){
-        if(folder === undefined){
-          const paths = dir.split('/');
-          folder = '/' + paths[paths.length - 1];
-        }
+    for(let i = 0; i < aSrc.length; i++){
+      const src = aSrc[i];
+      const path = paths[i];
+      const items = fs.readdirSync(src);
 
-        if(dir[dir.length-1] !== '/') dir += '/';
-
-        const items = fs.readdirSync(dir);
-
-
-        for(let item of items){
-          if(!this.isFolder(dir, item)){
-            if(this.isFileSupported(item, types)){
-              files.push({
-                path: dir,
-                folder: folder,
-                file: item,
-              });
-            }
-          } else {
-            folders++;
-            this.getItemsFromDirs([dir + '/' + item], types, folder + '/' + item)
-            .then(results => {
-              resolvedFolders++;
-
-              for(const r of results){
-                files.push(r);
-              }
-
-              if(folders === resolvedFolders){
-                resolve(files);
-              }
-            })
-            .catch(err => console.log(err));
+      for(const item of items){
+        if(this.isFolder(src, item)){
+          const results = await this.getItemsFromDirs([src + '/' + item], types, [path + '/' + item]);
+          for(const result of results){
+            files.push(result);
           }
         }
+        else if(this.isFileSupported(item, types)) {
+          const file = {
+            path: src,
+            folder: path,
+            file: item,
+          };
+          files.push(file);
+        }
       }
+    }
 
-      if(folders === 0) resolve(files);
-    });
-
-    return promise;
+    return files;
   }
 
   static getFilesFromItems = async(items, types) => {
@@ -102,15 +80,20 @@ class FileSystem {
   }
 
   static linkPathsToApp = (paths) => {
+    const publicPaths = [];
+
     for(const path of paths){
       const folders = path.split('/');
       const folder = folders[folders.length - 1];
       const publicDir = PUBLIC_APP_DIR + '/' + folder;
+      publicPaths.push('/' + folder);
 
       if(!fs.existsSync(publicDir)){
-        fs.symlinkSync(path, publicDir);
+        fs.symlinkSync(path, publicDir)
       }
     }
+
+    return publicPaths;
   }
 
 }

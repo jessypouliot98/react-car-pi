@@ -20,18 +20,22 @@ class Timestamp extends React.Component{
    }
 
    update = () => {
-      requestAnimationFrame(this.update);
-
-      const mediaTime = this.props.mediaCtx.scrubMediaFn();
+      const mediaTime = this.props.mediaCtx.scrubMedia();
 
       this.setState({
          currentTime: mediaTime.current,
          totalTime: mediaTime.total,
       });
+
+      this.LOOP = requestAnimationFrame(this.update);
    }
 
    componentDidMount(){
       this.update();
+   }
+
+   componentWillUnmount(){
+     cancelAnimationFrame(this.LOOP);
    }
 
    render(){

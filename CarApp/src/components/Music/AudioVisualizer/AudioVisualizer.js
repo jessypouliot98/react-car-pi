@@ -18,7 +18,7 @@ class AudioVisualizer extends React.Component{
       const h = this.CANVAS.height;//canvas height
       const width = ((w + margin) / nb) - margin; //bar width
       const audioData = this.props.audioDataFn(); //audio data
-      const audioDataCut = 0.3;//cuts a percentage of the last part
+      const audioDataCut = 0.1;//cuts a percentage of the last part
       for(let i = 0; i < nb; i++){
          const x = i * (width + margin);//position
          const dataSampleSize = Math.floor((audioData.length * (1 - audioDataCut)) / nb);

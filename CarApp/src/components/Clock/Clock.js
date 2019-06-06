@@ -14,23 +14,27 @@ class Clock extends React.Component{
 
     let hour = date.getHours();
     if(this.props.format === '12'){
-      morning = true;
       if(hour > 12) {
-        morning = false;
         hour = hour % 12;
       }
     }
 
-    const min = date.getMinutes();
+    let min = date.getMinutes();
+    if(min.toString().length === 1) min = '0' + min;
 
     const time = { hour, min, morning };
+
     this.setState({ time });
   }
 
   componentDidMount(){
     this.getTime();
     const sec = 1000;
-    setInterval(() => this.getTime(), sec);
+    this.LOOP = setInterval(() => this.getTime(), sec);
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.LOOP);
   }
 
   render(){
@@ -39,7 +43,7 @@ class Clock extends React.Component{
 
     return(
       <div className={classes.Clock}>
-        {time.hour}:{time.min}{time.morning === true ? 'AM' : time.moring === false ? 'PM' : ''}
+        {time.hour}:{time.min}
       </div>
     );
   }

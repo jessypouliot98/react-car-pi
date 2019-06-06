@@ -1,3 +1,2 @@
-export { AudioProvider, AudioConsumer } from './AudioProvider';
-export { VideoProvider, VideoConsumer } from './VideoProvider';
+export { AppProvider, AppConsumer, AppContext } from './app/AppProvider';
 export { default as Socket } from './Socket';

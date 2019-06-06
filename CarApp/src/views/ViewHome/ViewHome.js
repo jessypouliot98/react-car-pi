@@ -1,11 +1,22 @@
 import React from 'react';
-import { Menu, Clock } from '../../components/';
+import { Menu, Clock, Row, Col, Weather } from '../../components/';
+import { AppContext } from '../../providers/';
 
 class ViewHome extends React.Component {
+
+  static contextType = AppContext;
+
   render(){
     return(
       <React.Fragment>
-        <Clock format="12"/>
+        <Row height={200} justifyContent="center">
+          <Col>
+            <Clock format="12"/>
+          </Col>
+          <Col>
+            <Weather locationID={this.context.locationID}/>
+          </Col>
+        </Row>
         <Menu items={[
           {
             name: 'Music',
@@ -14,8 +25,11 @@ class ViewHome extends React.Component {
             name: 'Video',
             href: '/video'
           },{
-            name: 'Photo',
-            href: '/photo'
+            name: 'Maps',
+            href: '/maps'
+          },{
+            name: 'Camera',
+            href: '/camera'
           },{
             name: 'Settings',
             href: '/settings'

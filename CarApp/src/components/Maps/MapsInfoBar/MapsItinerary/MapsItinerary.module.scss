@@ -1,0 +1,36 @@
+.MapsItinerary{
+  display: flex;
+  padding: 10px;
+  height: 100%;
+}
+.RouteDirection{
+  color: white;
+  height: 100%;
+  width: 50px;
+  text-align: center;
+  border:1px solid white;
+  margin-right: 10px;
+}
+.RouteRoad{
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.RouteNextRoad{
+  color: white;
+  font-size: 0.9em;
+}
+.RouteRoadDirection{
+  margin: 10px;
+  border: 1px solid white;
+  font-weight: bold;
+  padding: 0 0.2em;
+}
+.RouteRoadDistance{
+  color: white;
+  height: 100%;
+  text-align: center;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 1.1em;
+}

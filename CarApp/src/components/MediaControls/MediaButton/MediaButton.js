@@ -32,18 +32,18 @@ class MediaButton extends React.Component{
    }
 
    previous = () => {
-      this.props.mediaCtx.switchMediaFn(false);
+      this.props.mediaCtx.switchMedia(false);
    }
 
    togglePlay = () => {
-      const state = this.props.mediaCtx.togglePlayFn();
+      const state = this.props.mediaCtx.togglePlay();
       this.setState({
          playState: state,
       });
    }
 
    next = () => {
-      this.props.mediaCtx.switchMediaFn(true);
+      this.props.mediaCtx.switchMedia(true);
    }
 
    keyBinds = (e) => {
