@@ -20,7 +20,7 @@ class Timestamp extends React.Component{
    }
 
    update = () => {
-      const mediaTime = this.props.mediaCtx.scrubMediaFn();
+      const mediaTime = this.props.mediaCtx.scrubMedia();
 
       this.setState({
          currentTime: mediaTime.current,

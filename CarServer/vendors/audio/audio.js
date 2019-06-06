@@ -31,11 +31,11 @@ class Audio {
             format: resp.tags.picture.format,
             data: resp.tags.picture.data
           });
-          resolve(undefined);
+          resolve();
         },
         onError: err => {
           console.log(':(', err.type, err.info);
-          resolve(undefined);
+          resolve();
         }
       });
     });

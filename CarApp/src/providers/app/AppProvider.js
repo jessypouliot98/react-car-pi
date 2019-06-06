@@ -2,6 +2,9 @@ import React from 'react';
 // import Sort from '../../functions/Sort';
 // import Converter from '../../functions/Converter';
 import WeatherWidget from '../widget/WeatherWidget/WeatherWidget';
+import MapsWidget from '../widget/MapsWidget/MapsWidget';
+import AudioWidget from '../widget/AudioWidget/AudioWidget';
+import VideoWidget from '../widget/VideoWidget/VideoWidget';
 import { Socket } from '../';
 
 const Context = React.createContext();
@@ -13,10 +16,47 @@ class AppProvider extends React.Component{
 
   state = {
     isLoading: true,
-    audioLibrary: {},
-    videoLibrary: {},
     location: {},
     weather: {},
+    mediaFocus: undefined,
+    maps: {},
+  }
+
+  componentDidMount(){
+    this.setState({ isLoading: true });
+
+    this.initialise()
+    .then(() => {
+      this.setState({ isLoading: false })
+    });
+  }
+
+  initialise = async() => {
+    this.SOCKET = new Socket();
+    await this.SOCKET.connect(this.HOST);
+    await this.getAudioLibrary();
+    const location = await this.getLocation();
+    this.AUDIO = new AudioWidget(this);
+    await this.AUDIO.getLibrary();
+    this.VIDEO = new VideoWidget(this);
+    await this.VIDEO.getLibrary();
+    this.WEATHER = new WeatherWidget(this);
+    await this.WEATHER.setLocation(location.id);
+    this.MAPS = new MapsWidget(this);
+
+    return;
+  }
+
+  mediaFocus = (type) => {
+    if(type !== this.state.mediaFocus){
+      if(this.state.mediaFocus === 'video'){
+        this.VIDEO.pause();
+      }
+      else if(this.state.mediaFocus === 'audio'){
+        this.AUDIO.pause();
+      }
+    }
+    this.setState({ mediaFocus: type });
   }
 
   getAudioLibrary = async() => {
@@ -24,13 +64,6 @@ class AppProvider extends React.Component{
     this.setState({ audioLibrary: library });
 
     return library;
-  }
-
-  updateAudioLibrary = (aSrc) => {
-    this.SOCKET.refreshSongLibrary(aSrc)
-    .then(library => {
-      this.setState({ audioLibrary: library });
-    });
   }
 
   updateLocation = (id) => {
@@ -48,26 +81,6 @@ class AppProvider extends React.Component{
     return location;
   }
 
-  initialise = async() => {
-    this.SOCKET = new Socket();
-    await this.SOCKET.connect(this.HOST);
-    await this.getAudioLibrary();
-    const location = await this.getLocation();
-    this.WEATHER = new WeatherWidget(this);
-    await this.WEATHER.setLocation(location.id);
-
-    return true;
-  }
-
-  componentDidMount(){
-    this.setState({ isLoading: true });
-
-    this.initialise()
-    .then(() => {
-      this.setState({ isLoading: false })
-    });
-  }
-
   render(){
     const content = this.state.isLoading ? (
       <React.Fragment/>
@@ -77,11 +90,12 @@ class AppProvider extends React.Component{
 
     return(
       <Context.Provider value={{
-        updateAudioLibraryFn: this.updateAudioLibrary,
-        audioLibrary: this.state.audioLibrary,
+        audio: this.AUDIO,
+        video: this.VIDEO,
         updateLocationFn: this.updateLocation,
         location: this.state.location,
         weather: this.state.weather,
+        maps: this.MAPS,
       }}>
         {content}
       </Context.Provider>
@@ -90,3 +104,24 @@ class AppProvider extends React.Component{
 }
 
 export {AppProvider, Consumer as AppConsumer, Context as AppContext};
+
+
+/**
+.then(status => this.loadSongsFromSource())
+.then(status => this.SOCKET.inputListener({
+  onRotate: (side) => {
+    const time = this.scrubAudio();
+    const percent = time.current / time.total;
+    if(side){
+      this.scrubAudio(Math.min(percent + 0.01, 1));
+    }
+    else {
+      this.scrubAudio(Math.max(0, percent - 0.01));
+    }
+  },
+  onPress: (bool) => {
+    if(!bool) this.togglePlay();
+  },
+}));
+this.getAlbumArt();
+*/

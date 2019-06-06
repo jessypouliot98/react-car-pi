@@ -3,6 +3,7 @@
   height: 100px;
   color: white;
   font-weight: bold;
+  flex: 0 0 25%;
 }
 
 .MenuLink{
@@ -21,6 +22,5 @@
   transition: 0.3s ease;
   &:hover{
     background: rgba(#fff, 0.3);
-    color: black;
   }
 }

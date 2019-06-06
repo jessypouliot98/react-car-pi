@@ -1,17 +1,22 @@
 import React from 'react';
+import { AppContext } from '../../../providers';
 import classes from './VideoPlayer.module.scss';
 
 class VideoPlayer extends React.Component{
 
-   getFile = () => {
-      return this.props.file ? this.props.file : '';
-   }
+  static contextType = AppContext;
 
-   render(){
-      return(
-         <video id="video-player" src={this.getFile()} autoPlay={true} poster="posterimage.jpg" className={classes.VideoPlayer}></video>
-      );
-   }
+  componentDidMount(){
+    this.PLAYER = this.context.video.PLAYER;
+    this.PLACEHOLDER = document.getElementById('video-placeholder');
+    this.PLACEHOLDER.appendChild(this.PLAYER);
+  }
+
+  render(){
+  return(
+    <div id='video-placeholder' className={classes.VideoContainer}></div>
+  );
+  }
 }
 
 export default VideoPlayer

@@ -5,10 +5,16 @@
   font-weight: bold;
 }
 
+.InputContainer{
+  position: relative;
+  display: inline-block;
+}
+
 .InputString{
+  position: relative;
   padding: 0 1em;
   height: 100%;
-  width: 70%;
+  width: 100%;
   border: none;
   outline: none;
   background: none;

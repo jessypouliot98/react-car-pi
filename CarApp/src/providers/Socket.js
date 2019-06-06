@@ -14,8 +14,8 @@ class Socket {
 
    refreshSongLibrary = (aSrc) => {
       const promise = new Promise((resolve, reject) => {
-         this.SOCKET.emit('addSources', aSrc);
-         this.SOCKET.on('addedSources', (aSrc) => resolve(aSrc));
+         this.SOCKET.emit('addAudioSources', aSrc);
+         this.SOCKET.on('addedAudioSources', (aSrc) => resolve(aSrc));
       });
 
       return promise;
@@ -23,8 +23,17 @@ class Socket {
 
    getSongs = () => {
       const promise = new Promise((resolve, reject) => {
-         this.SOCKET.emit('getSources');//BROKEN ??
-         this.SOCKET.on('emitSources', (aSrc) => resolve(aSrc));
+         this.SOCKET.emit('getAudioSources');//BROKEN ??
+         this.SOCKET.on('emitAudioSources', (aSrc) => resolve(aSrc));
+      });
+
+      return promise;
+   }
+
+   getVideos = () => {
+      const promise = new Promise((resolve, reject) => {
+         this.SOCKET.emit('getVideoSources');//BROKEN ??
+         this.SOCKET.on('emitVideoSources', (aSrc) => resolve(aSrc));
       });
 
       return promise;

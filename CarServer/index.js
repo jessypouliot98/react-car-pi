@@ -6,6 +6,7 @@ Dependencies
 const HttpServer = require('./vendors/http_server/http.js').HttpServer;
 const SocketIO = require('./vendors/socket/socket.js').SocketIO;
 const Audio = require('./vendors/audio/audio.js').Audio;
+const Video = require('./vendors/video/video.js').Video;
 const FileSystem = require('./vendors/file_system/filesystem.js').FileSystem;
 const Weather = require('./vendors/weather/weather.js').Weather;
 
@@ -30,23 +31,36 @@ class CarServer {
     */
 
     //GET
-    socket.on('getSources', () => {
+    socket.on('getAudioSources', () => {
       Audio.getSources()
       .then(aSrc => {
-        socket.emit('emitSources', aSrc);
+        socket.emit('emitAudioSources', aSrc);
       })
       .catch(err => console.log(err));
     });
 
     //POST
-    socket.on('addSources', (paths) => {
+    socket.on('addAudioSources', (paths) => {
       Audio.addSources(paths)
-      .then(aSrc => socket.emit('addedSources', aSrc))
+      .then(aSrc => socket.emit('addedAudioSources', aSrc))
       .catch(err => console.log(err));
     });
 
-    //DELETE
-    socket.on('removeSources', (array) => Audio.removeSources(socket, array));
+    //GET
+    socket.on('getVideoSources', () => {
+      Video.getSources()
+      .then(aSrc => {
+        socket.emit('emitVideoSources', aSrc);
+      })
+      .catch(err => console.log(err));
+    });
+
+    //POST
+    socket.on('addVideoSources', (paths) => {
+      Video.addSources(paths)
+      .then(aSrc => socket.emit('addedVideoSources', aSrc))
+      .catch(err => console.log(err));
+    });
 
     /**
     * AUDIO

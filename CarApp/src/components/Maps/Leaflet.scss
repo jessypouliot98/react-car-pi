@@ -1,0 +1,23 @@
+.leaflet-top, .leaflet-right, .leaflet-bottom, .leaflet-left{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.leaflet-top .leaflet-control{
+  margin: 0;
+}
+
+.leaflet-control-attribution{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.leaflet-routing-container{
+  display: none;
+}

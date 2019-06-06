@@ -19,7 +19,7 @@ class ViewSetting extends React.Component {
         },{
           name: 'Music Sources',
           type: 'string',
-          default: this.context.audioLibrary.paths ? this.context.audioLibrary.paths.join(';') : undefined,
+          default: this.context.audio.AUDIO_LIST.paths ? this.context.audio.AUDIO_LIST.paths.join(';') : undefined,
           callback: (v) => this.setAudioSources(v),
         },
       ],
@@ -51,7 +51,7 @@ class ViewSetting extends React.Component {
   }
 
   applyChanges = () => {
-    if(this.INPUTS.audioSources.length > 0) this.context.updateAudioLibraryFn(this.INPUTS.audioSources);
+    if(this.INPUTS.audioSources.length > 0) this.context.audio.setLibrary(this.INPUTS.audioSources);
     if(this.INPUTS.locationID.length > 0) this.context.updateLocationFn({ id: this.INPUTS.locationID });
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Weather.module.scss';
-import { Socket, AppContext } from '../../providers/';
+import { AppContext } from '../../providers/';
 
 class Weather extends React.Component{
 

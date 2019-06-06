@@ -30,7 +30,6 @@ class ListItem extends React.Component{
 
    render(){
       const input = this.getInput();
-      
       return(
          <li className={classes.ListItem}>
            <Col height={50}>

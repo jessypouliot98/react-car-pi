@@ -1,0 +1,38 @@
+.MapsRouteSettings{
+  position: absolute;
+  left: 10px;
+  width: 80%;
+  top: 80px;
+  bottom: 10px;
+  z-index: 100000;
+  background: rgba(black, 0.7);
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.OpenSettingsButton{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10000;
+  background: orange;
+  outline: none;
+  border: none;
+  padding: 1em;
+  color: white;
+  font-weight: bold;
+}
+
+.ApplySettingsButton{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10000000;
+  background: orange;
+  outline: none;
+  border: none;
+  padding: 1em;
+  color: white;
+  font-weight: bold;
+}

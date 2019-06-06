@@ -9,7 +9,7 @@ class ViewHome extends React.Component {
   render(){
     return(
       <React.Fragment>
-        <Row height={180} justifyContent="center">
+        <Row height={200} justifyContent="center">
           <Col>
             <Clock format="12"/>
           </Col>
@@ -25,8 +25,11 @@ class ViewHome extends React.Component {
             name: 'Video',
             href: '/video'
           },{
-            name: 'Photo',
-            href: '/photo'
+            name: 'Maps',
+            href: '/maps'
+          },{
+            name: 'Camera',
+            href: '/camera'
           },{
             name: 'Settings',
             href: '/settings'
