@@ -64,4 +64,4 @@ typings/
 .ftpconfig
 
 # app configuration files
-configs/
+# configs/
